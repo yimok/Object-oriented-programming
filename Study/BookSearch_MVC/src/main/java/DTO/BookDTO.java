@@ -1,0 +1,55 @@
+package DTO;
+
+//데이터 전달을 목적으로 하는 DTO 객체를 만들기 위한 class
+// 내가 전달한 Database의 Table을 근간으로 만든다.
+public class BookDTO {
+
+	private String bisbn;
+	private String btitle;
+	private String bauthor;
+	private String bdate;
+	private int bpage;
+	private int bprice;
+	
+	//각필드를 사용하기위한 Getter/Setter method 작성
+	public String getBisbn() {
+		return bisbn;
+	}
+	public void setBisbn(String bisbn) {
+		this.bisbn = bisbn;
+	}
+	public String getBtitle() {
+		return btitle;
+	}
+	public void setBtitle(String btitle) {
+		this.btitle = btitle;
+	}
+
+	public String getBauthor() {
+		return bauthor;
+	}
+	public void setBauthor(String bauthor) {
+		this.bauthor = bauthor;
+	}
+	public String getBdate() {
+		return bdate;
+	}
+	public void setBdate(String bdate) {
+		this.bdate = bdate;
+	}
+	public int getBpage() {
+		return bpage;
+	}
+	public void setBpage(int bpage) {
+		this.bpage = bpage;
+	}
+	public int getBprice() {
+		return bprice;
+	}
+	public void setBprice(int bprice) {
+		this.bprice = bprice;
+	}
+	
+
+	
+}

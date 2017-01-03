@@ -1,0 +1,33 @@
+package Controller;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import DTO.BookDTO;
+import Service.BookService;
+
+public class BookController {
+		
+		//반복 사용되는 자원들은 필드로 잡아서 사용하는게 효율적이다.
+		Scanner s;
+	
+		public BookController()
+		{
+			//controller 생성 
+			System.out.print("책 제목을 입력하세요=>");
+			s = new Scanner(System.in);
+			String keyword = s.nextLine();
+			
+			//입력은 다 받았다. 이제 입력받은 값을 이용해서 로직처리 해야함
+			//그런데 Controller는 로직처리를 하지않는다. 즉 딱 입력과 출력만 Controller에서 수행s
+			//로직을 처리하는 instance는 Service라고 불리는 놈을 이용한다. -> Class를 새로만들어 인스턴스 생성
+			BookService service = new BookService();
+			ArrayList<BookDTO> list = service.findBookbyKeyword(keyword);
+			
+			//로직에서 처리한 list를 출력처리
+			for(BookDTO dto : list)
+			{
+				System.out.println(dto.getBtitle() + ", " + dto.getBauthor());
+			}
+		}
+}

@@ -1,0 +1,12 @@
+import Controller.BookController;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		//BookController를 하나 생성 
+		new BookController();
+		
+	}
+
+}

@@ -1,0 +1,6 @@
+package DTO;
+
+//데이터 전달을 목적으로 하는 DTO 객체를 만들기 위한 class
+public class BookDTO {
+
+}

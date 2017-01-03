@@ -1,0 +1,6 @@
+package DAO;
+
+//도서에 관한 Database처리를 하는 instance를 만들기 위한 class
+public class BookDAO {
+
+}

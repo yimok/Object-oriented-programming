@@ -1,0 +1,17 @@
+package Controller;
+
+import java.util.Scanner;
+
+public class BookController {
+		
+		//반복 사용되는 자원들은 필드로 잡아서 사용하는게 효율적이다.
+		Scanner s;
+	
+		public BookController()
+		{
+			//controller 생성 
+			System.out.print("책 제목을 입력하세요=>");
+			s = new Scanner(System.in);
+			
+		}
+}
