@@ -1,25 +1,3 @@
----
-layout: post
-title: "MVC Pattern으로 BankSystem 만들기"
-description: "MVC Pattern으로 BankSystem 만들기"
-modified: 2017-01-02
-tags: [blog]
-comments: true
-image:
-  feature: back6.jpg
----
-
-MVC Pattern으로 BankSystem을 만들어 보자.
-
-<section id="table-of-contents" class="toc">
-  <header>
-    <h3>Overview</h3>
-  </header>
-<div id="drawer" markdown="1">
-*  Auto generated table of contents
-{:toc}
-</div>
-</section><!-- /#table-of-contents -->
 
 ## MVC Pattern - BankSystem
 
