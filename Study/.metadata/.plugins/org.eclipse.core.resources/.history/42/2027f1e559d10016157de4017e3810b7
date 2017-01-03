@@ -61,12 +61,6 @@ public class Main {
 				System.out.println("책 제목:" + rs.getString("btitle"));
 			}
 		
-			//2-6 사용한 리소스 정리
-			rs.close();
-			pstmt.close();
-			con.close();
-			
-			
 		}catch(Exception e){
 			//만약 오류가 생기면 오류 출력
 			System.out.println(e);

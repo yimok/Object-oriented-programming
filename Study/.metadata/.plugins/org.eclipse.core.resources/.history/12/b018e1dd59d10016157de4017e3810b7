@@ -54,18 +54,11 @@ public class Main {
 			ResultSet rs = pstmt.executeQuery();
 			
 			//2-5 결과처리
-			//반복 해서 rs.next() 를 수행하고
-			//btitle 컬럼명의 열의 문자열을 가져와라.
-			while(rs.next())
-			{
-				System.out.println("책 제목:" + rs.getString("btitle"));
-			}
-		
-			//2-6 사용한 리소스 정리
-			rs.close();
-			pstmt.close();
-			con.close();
+			rs.next();
+			//btitle 컬럼명의 문자열을 가져와라.(열 선택)
+			String title = rs.getString("btitle"); 
 			
+			System.out.println(title);
 			
 		}catch(Exception e){
 			//만약 오류가 생기면 오류 출력
