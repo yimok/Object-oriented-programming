@@ -1,0 +1,10 @@
+package DTO;
+
+//DTO는 DB의 테이블을 근간으로 만든다.
+public class BankDTO {
+	
+	String username;
+	int balance;
+	
+
+}

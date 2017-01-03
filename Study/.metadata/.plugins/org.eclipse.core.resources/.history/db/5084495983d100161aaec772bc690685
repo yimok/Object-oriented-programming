@@ -1,0 +1,12 @@
+package DAO;
+
+import DTO.BankDTO;
+
+public class BankDAO {
+
+	public BankDTO insert(BankDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
