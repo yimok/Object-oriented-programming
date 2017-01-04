@@ -1,0 +1,22 @@
+
+
+class Human
+{
+	int age;
+	public void printInfo()
+	{
+		
+	}
+	
+}
+
+//클래스를 재 사용하는 가장 쉬운방법 : 상속(inheritance)
+class student extends Human{
+	}
+
+public class InheritanceTest {
+
+	public static void main(String[] args){
+		
+	}
+}

@@ -1,0 +1,30 @@
+package exam_02_01_BookSearch_XML_Setter;
+
+import java.util.Scanner;
+
+import org.springframework.context.support.AbstractApplicationContext;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		//DI 즉 주입이 어떻게 할건지 xml문서에 기입이 되어있음
+		//스프링 컨테이너인 ctx가 config를 보고 DI를 수행함
+		
+		//applicationCtx.xml 는 리소스 폴더에 있어야함.
+		String config ="classpath:applicationCtx.xml";
+		//DI 작업을해주는 스프링 객체
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext(config);
+		
+		Scanner s = new Scanner(System.in);
+		System.out.print("키워드를 입력하세요=>");
+
+		String keyword = s.nextLine();
+		
+		//스프링 컨테이너에서 필요한 service 객체를 하나 끄집어 냄
+		BookService service = ctx.getBean("service")
+	}
+
+}

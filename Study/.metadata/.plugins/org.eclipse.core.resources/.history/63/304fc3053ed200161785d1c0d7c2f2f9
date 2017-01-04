@@ -1,0 +1,22 @@
+package exam_01_01_composition.service;
+
+import java.util.ArrayList;
+
+import exam_01_01_composition.DAO.BookDAO;
+import exam_01_01_composition.DTO.BookDTO;
+
+public class BookService {
+
+	public ArrayList<BookDTO> findBookByKeyword(String keyword) {
+	
+		
+		BookDAO dao = new BookDAO();
+		//transaction 은 데이터베이스가 수정이 되었을때 사용하는것 
+		//select 시에는 필요 없다.
+		return dao.select(keyword);
+		
+	}
+	
+	
+
+}

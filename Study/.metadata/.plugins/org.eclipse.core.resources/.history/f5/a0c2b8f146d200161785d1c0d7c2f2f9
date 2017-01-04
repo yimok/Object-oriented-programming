@@ -1,0 +1,5 @@
+package exam_01_01_composition.DAO;
+
+public interface DAO {
+
+}

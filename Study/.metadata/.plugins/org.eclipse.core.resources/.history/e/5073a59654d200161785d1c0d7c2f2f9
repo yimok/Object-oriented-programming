@@ -1,0 +1,5 @@
+package exam_02_01_BookSearch_XML_Setter.dao;
+
+public class BookDAO {
+
+}

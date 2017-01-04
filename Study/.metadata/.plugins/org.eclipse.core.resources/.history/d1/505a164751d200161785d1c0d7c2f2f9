@@ -1,0 +1,10 @@
+package exam_02_01_BookSearch_XML_Setter.dto;
+
+public class BookDTO {
+
+	private String btitle;
+	private String bauthor;
+	
+	
+	
+}

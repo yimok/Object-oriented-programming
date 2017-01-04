@@ -1,0 +1,31 @@
+
+
+//Super class, Parent class , Upper class
+//상위클래스, 부모클래스
+class Human
+{
+	int age;
+	public void printInfo()
+	{
+		
+	}
+	
+}
+
+
+
+//Sub class, child class, 자식 클래스, 하위 클래스
+class student extends Human{
+	}
+
+
+//클래스를 재 사용하는 가장 쉬운방법 : 상속(inheritance)
+//상속은 클래스간의 결합도가 상당히 높아질 수 밖에 없는 구조이다. -> 자식클래스를 사용하려면 반드시 부모 클래스가 필요
+//IS-A Relationship(IS-A 관계)
+
+public class InheritanceTest {
+
+	public static void main(String[] args){
+		
+	}
+}

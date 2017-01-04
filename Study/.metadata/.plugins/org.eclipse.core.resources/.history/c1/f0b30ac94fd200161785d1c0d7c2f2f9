@@ -1,0 +1,10 @@
+package exam_02_01_BookSearch_XML_Setter;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

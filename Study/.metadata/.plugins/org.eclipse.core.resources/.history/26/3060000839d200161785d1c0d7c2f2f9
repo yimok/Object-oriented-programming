@@ -1,0 +1,32 @@
+package exam_01_01_composition.controller;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import exam_01_01_composition.DTO.BookDTO;
+import exam_01_01_composition.service.BookService;
+
+public class BookController {
+
+	Scanner s;
+	
+	
+	
+	public BookController()
+	{
+		s = new Scanner(System.in);
+		System.out.print("키워드입력 =>");
+		String keyword = s.nextLine();
+		
+		BookService service = new BookService();
+		
+		ArrayList<BookDTO> list = service.findBookByKeyword(keyword);
+		
+		for(BookDTO dto : list)
+		{
+			
+		}
+		
+		
+	}
+}

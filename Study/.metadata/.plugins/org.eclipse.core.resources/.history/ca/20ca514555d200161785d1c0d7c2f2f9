@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+ <!-- BookDAO 로부터  인스턴스를 만들어 dao로 지정한다는 의미. -->
+	<bean id="dao" 
+		class ="exam_02_01_BookSearch_XML_Setter.dao.BookDAO" />
+
+</beans>
