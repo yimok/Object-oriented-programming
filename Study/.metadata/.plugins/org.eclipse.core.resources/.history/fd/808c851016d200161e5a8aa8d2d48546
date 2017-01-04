@@ -1,0 +1,27 @@
+import java.sql.DriverManager;
+
+public class Main {
+
+	public static void main(String[] args) {
+			
+		//Transaction을 적용하지 않은 예제
+		//총 6단계를 거쳐서 데이터베이스 처리를 합니다.
+
+		try{
+			//1. Driver Loading( MySQL에 접속하기 위한 class를 로딩)
+			Class.forName("com.mysql.jdc.Driver");
+			
+			//2. 실제 데이터베이스에 접속
+			String url = "jdbc:mysql://localhost:3306/library" ;
+			String id = "root";
+			String pw = "cps431";
+			DriverManager.getConnection(url, id, pw);
+			
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		
+		
+	}
+
+}
