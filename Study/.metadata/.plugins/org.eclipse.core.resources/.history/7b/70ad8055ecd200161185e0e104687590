@@ -1,0 +1,20 @@
+package exam_02_04_BookShelf;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		String config = "classpath:applicationCtx.xml";
+		
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext(config);
+		
+		//Bookshelf 클래스 타입인 shelf 객체를 끄집어냄
+		BookShelf shlef = ctx.getBean("shelf",BookShelf.class);
+		
+		System.out.println("책장 title : ");
+	}
+
+}

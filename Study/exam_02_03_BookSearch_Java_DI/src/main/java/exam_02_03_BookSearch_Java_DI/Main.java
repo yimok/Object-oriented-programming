@@ -1,0 +1,31 @@
+package exam_02_03_BookSearch_Java_DI;
+
+import java.util.ArrayList;
+
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import exam_02_03_BookSearch_Java_DI.config.ApplicationContext;
+import exam_02_03_BookSearch_Java_DI.dto.BookDTO;
+import exam_02_03_BookSearch_Java_DI.service.BookService;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		// 1. Spring Container부터 생성
+		// xml이 아닌 java class파일을 이용해서 설정.
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationContext.class);
+		
+		
+		BookService service = ctx.getBean("service" , BookService.class);
+		ArrayList<BookDTO> list = service.findBookByKeyword();
+		
+		for(BookDTO dto : list)
+		{
+			System.out.println(dto.getBtitle() + ", " + dto.getBauthor());
+		
+		}
+	}
+
+}

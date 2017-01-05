@@ -1,0 +1,5 @@
+package exam_02_03_BookSearch_Java_DI.dao;
+
+public class BookDAO {
+
+}

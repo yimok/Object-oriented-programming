@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	
+	
+	
+	<!-- Spring 컨테이너에 의해 3개의 책 DTO가 생성. -->
+	<bean id = "book1"
+	 class = "exam_02_04_BookShelf.dto.BookDTO">
+	
+		<property name ="btitle"> 
+			<value> 젊은 베르테르의 슬픔</value>
+		</property>
+		
+		<property name="bauthor">
+			<value>괴테</value>
+		</property>
+	</bean>
+
+	<bean id = "book2"
+	 class = "exam_02_04_BookShelf.dto.BookDTO">
+	
+		<property name ="btitle"> 
+			<value>개미</value>
+		</property>
+		
+		
+		<property name="bauthor">
+			<value>베르나르 베르베르</value>
+		</property>
+	</bean>
+	
+	
+		
+	<bean id = "book3"
+	 class = "exam_02_04_BookShelf.dto.BookDTO">
+	
+		<property name ="btitle"> 
+			<value> 레미제라블</value>
+		</property>
+		
+		
+		<property name="bauthor">
+			<value>빅토르 위고</value>
+		</property>
+	</bean>
+	
+	
+	<!--  XML로 ArrayList , HashMap 만들기 -->
+	<!--  NamesSpace 에서 util 체크 필요함  -->
+	<!--  ArrayList 안에 BookDTo를 넣음 -->
+	<util:list id = "bookList" value-type="exam_02_04_BookShelf.dto.BookDTO">
+	
+		<ref bean = "book1"></ref>
+		<ref bean = "book2"></ref>
+		<ref bean = "book3"></ref>
+	
+	</util:list>
+	
+	
+	
+</beans>

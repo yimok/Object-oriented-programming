@@ -1,0 +1,5 @@
+package exam_02_04_BookShelf.dto;
+
+public class BookDTO {
+
+}

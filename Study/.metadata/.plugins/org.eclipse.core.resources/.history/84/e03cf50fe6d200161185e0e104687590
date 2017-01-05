@@ -1,0 +1,19 @@
+package exam_02_03_BookSearch_Java_DI.service;
+
+import exam_02_03_BookSearch_Java_DI.dao.BookDAO;
+
+public class BookService {
+	
+	private BookDAO dao;
+	private String keyword;
+
+	public BookService(BookDAO dao)
+	{
+		this.dao = dao;
+	}
+	
+	public void setKeyword(String keyword){
+		
+		this.keyword = keyword;
+	}
+}

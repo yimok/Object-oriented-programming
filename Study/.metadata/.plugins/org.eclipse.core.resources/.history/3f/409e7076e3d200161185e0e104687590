@@ -1,0 +1,13 @@
+package exam_02_03_BookSearch_Java_DI;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// 1. Spring Container부터 생성
+		// xml이 아닌 java 파일을 기반으로 만듬.
+		AnnotationConfigApplicationContext ctx =
+	}
+
+}

@@ -20,18 +20,20 @@ public class Main {
 		//applicationCtx.xml 는 리소스 폴더에 있어야함.
 		String config ="classpath:applicationCtx.xml";
 		//DI 작업을해주는 스프링 객체
-		//xml에 명시되어있는 객체 2개를 생성.
+		//XML파일을 이용해서 Spring Container를 생성한다.
+		//그러면 XML 있는 설정대로 Bean이라고 불리는 객체를 만든다.
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext(config);
 		
+		/*
 		Scanner s = new Scanner(System.in);
 		System.out.print("키워드를 입력하세요=>");
-
 		String keyword = s.nextLine();
+		*/
 		
-		//service 객체를 직접만드는게 아니라 스프링컨테이너에서 꺼내 사용함.
+		//new를 써서 service 객체를 직접만드는게 아니라 스프링컨테이너에서 꺼내 사용함.
 		//스프링 컨테이너에서 필요한 service 객체를 하나 끄집어 냄 , Service의 클래스 타입을 직접 명시도 해줘야함.
 		BookService service = ctx.getBean("service" , BookService.class);
-		ArrayList<BookDTO> list = service.findBookByKeyword(keyword);
+		ArrayList<BookDTO> list = service.findBookByKeyword();
 		
 		for(BookDTO dto : list)
 		{

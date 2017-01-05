@@ -1,0 +1,24 @@
+package exam_02_04_BookShelf;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import exam_02_04_BookShelf.dto.BookDTO;
+
+public class BookShelf {
+
+	private String title; //책장명
+	private int pricae; //책장가격
+	
+	private ArrayList<BookDTO> list;
+	private HashMap<Integer,BookDTO> map;
+	
+	
+	public BookShelf(String title, ArrayList<BookDTO> list)
+	{
+		this.title = title;
+		this.list = list;
+		
+	}
+	
+}

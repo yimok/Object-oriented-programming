@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+  <!-- 스프링이 xml을 보고 아래 2개의 객체를 만듬 -->
+  <!-- 어떤 Bean을 만들고 어떤 연관이 있는지 기입이 되있다. -->
+  
+ <!-- BookDAO 로부터  인스턴스를 만들어 dao로 지정한다는 의미. -->
+	<bean id="dao" 
+		class ="exam_02_01_BookSearch_XML_Setter.dao.BookDAO" />
+
+	
+	
+ <!-- BookService 로부터  인스턴스를 만들어 service로 지정한다는 의미. -->
+	<bean id="service"
+		class="exam_02_01_BookSearch_XML_Setter.service.BookService">
+			
+			<!-- ref를 constructor 인자로 사용하겠다. -->
+			<constructor-arg>
+				<!-- ref는  Setter에 넘기는 인자이다. 즉 Setter로 넘기는 인자 dao -->
+				<ref bean="dao"></ref>
+			</constructor-arg>
+				<!-- 결국 setter 함수를 구현하기 위한 구문임.	
+				
+				public void setDao(BookDAO dao) {
+				this.dao = dao;
+				}
+				
+	
+	</bean>
+
+
+	
+	
+</beans>

@@ -5,7 +5,201 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2017-01-03T20:29:00Z</updated>
+  <updated>2017-01-04T22:31:44Z</updated>
+  <entry>
+    <title>Spring Batch 4.0.0.M1 is now available</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/01/04/spring-batch-4-0-0-m1-is-now-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Michael Minella</name>
+    </author>
+    <id>tag:spring.io,2017-01-04:2761</id>
+    <updated>2017-01-04T22:31:44Z</updated>
+    <content type="html">&lt;p&gt;We are pleased to announce that Spring Batch 4.0.0.M1 is now available via Github and the Pivotal download repository. This release represents the first milestone for the Spring Batch 4.0 release. Many thanks to all of those who contributed to this release.&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-rsquo-s-new" class="anchor" name="what-rsquo-s-new"&gt;&lt;/a&gt;What&amp;rsquo;s new?&lt;/h2&gt;
+&lt;p&gt;We have taken this opportunity to look at Spring Batch from a new light in a few areas. Specifically:&lt;br/&gt;* Java baseline&lt;br/&gt;* Dependency baseline&lt;br/&gt;* Java configuration&lt;/p&gt;&lt;h3&gt;&lt;a href="#java-baseline" class="anchor" name="java-baseline"&gt;&lt;/a&gt;Java Baseline&lt;/h3&gt;
+&lt;p&gt;Spring Batch has historically followed the baseline of Spring Framework with the intent of providing the best interoperability between Spring Batch and Spring Framework versions as possible. Spring Batch 4.0 is taking this opportunity to upgrade to Spring Framework 5 as the minimum required version. With this, Java 8 will be required for Spring Batch 4. If you&amp;rsquo;ve been using Spring Batch with Java 8 already, this should be a pretty transparent as Spring Batch has had a solid Java 8 story for years now. Doing things like the following has been supported as long as Java 8 has been around:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;@Bean&#xD;
+public JdbcCursorItemReader&amp;lt;Foo&amp;gt; reader() {&#xD;
+	JdbcCursorItemReader&amp;lt;Foo&amp;gt; reader = new JdbcCursorItemReader&amp;lt;&amp;gt;();&#xD;
+&#xD;
+	reader.setDataSource(this.dataSource);&#xD;
+	reader.setName(&amp;quot;fooReader&amp;quot;);&#xD;
+	reader.setSql(&amp;quot;SELECT * FROM FOO ORDER BY FIRST&amp;quot;);&#xD;
+	reader.setRowMapper((rs, rowNum) -&amp;gt; {&#xD;
+		Foo foo = new Foo();&#xD;
+&#xD;
+		foo.setFirst(rs.getInt(&amp;quot;FIRST&amp;quot;));&#xD;
+		foo.setFirst(rs.getString(&amp;quot;SECOND&amp;quot;));&#xD;
+		foo.setFirst(rs.getString(&amp;quot;THIRD&amp;quot;));&#xD;
+&#xD;
+		return foo;&#xD;
+	});&#xD;
+&#xD;
+	return reader;&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Just like Spring Framework 5&amp;rsquo;s re-baselining on Java 8, this is has a larger impact internally to the framework. Now we, the developers and contributors of the framework, will be able to utilize the interesting features of Java 8 that you&amp;rsquo;ve been using all along.&lt;/p&gt;&lt;h3&gt;&lt;a href="#dependencies-baseline" class="anchor" name="dependencies-baseline"&gt;&lt;/a&gt;Dependencies Baseline&lt;/h3&gt;
+&lt;p&gt;Along with the re-baselining of Java in accordance with Spring Framework, Spring Batch 4 is also taking a full look at all dependencies and upgrading them to the latest versions. This is as much to keep up with the latest as it is for us to be able to provide support for the functionality we provide. We need to be dependent upon supported versions of those dependencies so we can have bugs addressed. Because of this, we need to keep up with their currently supported versions. An example of this is Hibernate. Spring Batch 3.x supported Hibernate back to 4.2.x. However, if an issue with Hibernate 4.2.x was found, it wouldn&amp;rsquo;t be fixed there. It JBoss would only fix it in 5.2. Because of that, we need to stay up to date. Spring Framework 5 has taken a full review of all it&amp;rsquo;s dependencies. Spring Batch 4 updates all it&amp;rsquo;s dependencies to be in alignment with Spring Framework.&lt;/p&gt;&lt;h3&gt;&lt;a href="#java-configuration" class="anchor" name="java-configuration"&gt;&lt;/a&gt;Java Configuration&lt;/h3&gt;
+&lt;p&gt;Java configuration to Spring Batch is not new. Spring Batch 2.2 had the &lt;code&gt;@EnableBatchProcessing&lt;/code&gt; annotation as well as the related builders. However, there was still much to be desired from the java configuration story. For example, using what was available in Spring Batch 3.0.7, the configuration of a &lt;code&gt;FlatFileItemReader&lt;/code&gt; may look something like the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;@Bean&#xD;
+public FlatFileItemReader reader(Resource resource) throws Exception {&#xD;
+	FlatFileItemReader&amp;lt;Foo&amp;gt; reader = new FlatFileItemReader&amp;lt;&amp;gt;();&#xD;
+&#xD;
+	reader.setName(&amp;quot;fooReader&amp;quot;);&#xD;
+	reader.setResource(resource);&#xD;
+&#xD;
+	BeanWrapperFieldSetMapper&amp;lt;Foo&amp;gt; fieldSetMapper = &#xD;
+		new BeanWrapperFieldSetMapper&amp;lt;&amp;gt;();&#xD;
+	fieldSetMapper.setTargetType(Foo.class);&#xD;
+	fieldSetMapper.afterPropertiesSet();&#xD;
+&#xD;
+	DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();&#xD;
+	tokenizer.setNames(String [] {&amp;quot;first&amp;quot;, &amp;quot;second&amp;quot;, &amp;quot;third&amp;quot;});&#xD;
+	tokenizer.afterProperitesSet();&#xD;
+&#xD;
+	DefaultLineMapper lineMapper = new DefaultLineMapper();&#xD;
+	lineMapper.setLineTokenizer(tokenizer);&#xD;
+	lineMapper.setFieldSetMapper(fieldSetMapper);&#xD;
+&#xD;
+	reader.setLineMapper(lineMapper);&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, in Spring Batch 4, we are introducing a collection of builders that will simplify the building of the provided readers and writers. The above example using Spring Batch 3.0.x translates into the following using the builders in Spring Batch 4:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;@Bean&#xD;
+public FlatFileItemReader reader(Resource resource) {&#xD;
+	return new FlatFileItemReaderBuilder&amp;lt;Foo&amp;gt;()&#xD;
+		.name(&amp;quot;fooReader&amp;quot;)&#xD;
+		.resource(resource)&#xD;
+		.delimited()&#xD;
+		.names(new String[] {&amp;quot;first&amp;quot;, &amp;quot;second&amp;quot;, &amp;quot;third&amp;quot;})&#xD;
+		.targetType(Foo.class)&#xD;
+		.build();&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As of this milestone, builders for the &lt;code&gt;FlatFileItemReader&lt;/code&gt;, &lt;code&gt;FlatFileItemWriter&lt;/code&gt;, &lt;code&gt;JdbcCursorItemReader&lt;/code&gt;, and the &lt;code&gt;JdbcBatchItemWriter&lt;/code&gt; are available. We will address the other item readers and item writers prior to Spring Batch 4 going generally available.&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-rsquo-s-next" class="anchor" name="what-rsquo-s-next"&gt;&lt;/a&gt;What&amp;rsquo;s next?&lt;/h2&gt;
+&lt;p&gt;Looking ahead, we plan on implementing builders for the other Spring Batch readers and writers. We also plan on taking a full look at our documentation. The documentation currently takes what we&amp;rsquo;d consider an &amp;ldquo;XML first&amp;rdquo; approach. For the GA release of Spring Batch, we intend on refactoring the documentation to be more &amp;ldquo;java first&amp;rdquo; in it&amp;rsquo;s approach to provide better insight into how to configure batch applications using java configuration. Look out for further milestones and Spring Batch 4 to be generally available shortly after Spring Framework 5 goes GA.&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-do-you-think" class="anchor" name="what-do-you-think"&gt;&lt;/a&gt;What do you think?&lt;/h2&gt;
+&lt;p&gt;We look forward to your feedback on these new features in &lt;a href="https://jira.spring.io/browse/BATCH/"&gt;Jira&lt;/a&gt;, &lt;a href="https://stackoverflow.com/tags/spring-batch"&gt;StackOverflow&lt;/a&gt;, or to me directly via Twitter &lt;a href="https://twitter.com/michaelminella"&gt;@michaelminella&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://projects.spring.io/spring-batch/"&gt;Spring Batch Home&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-batch"&gt;Source on GitHub&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-batch/4.0.x/reference/html/index.html"&gt;Reference Documentation&lt;/a&gt;&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring IO Platform Athens-SR2</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/01/04/spring-io-platform-athens-sr2" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Andy Wilkinson</name>
+    </author>
+    <id>tag:spring.io,2017-01-04:2760</id>
+    <updated>2017-01-04T21:26:45Z</updated>
+    <content type="html">&lt;p&gt;I am pleased to announce that &lt;a href="http://platform.spring.io/platform"&gt;Spring IO Platform&lt;/a&gt; Athens-SR2 is now available from both &lt;a href="http://repo.spring.io/release"&gt;repo.spring.io&lt;/a&gt; and &lt;a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.spring.platform"&gt;Maven Central&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;This maintenance release upgrades the versions of a number of the projects in the Platform:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring AMQP 1.6.6.RELEASE&lt;/li&gt;
+  &lt;li&gt;Spring Boot 1.4.3.RELEASE&lt;/li&gt;
+  &lt;li&gt;Spring Data Hopper SR6&lt;/li&gt;
+  &lt;li&gt;Spring Framework 4.3.5.RELEASE&lt;/li&gt;
+  &lt;li&gt;Spring Integration 4.3.6.RELEASE&lt;/li&gt;
+  &lt;li&gt;Spring Retry 1.1.5.RELEASE&lt;/li&gt;
+  &lt;li&gt;Spring Security 4.1.4.RELEASE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The versions of a number of third-party dependencies have also been updated.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://platform.spring.io/platform"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-io/platform"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-io/platform/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/platform/docs/Athens-SR2/reference/htmlsingle"&gt;Documentation&lt;/a&gt;&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Introducing Kotlin support in Spring Framework 5.0</title>
+    <link rel="alternate" href="https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>S?bastien Deleuze</name>
+    </author>
+    <id>tag:spring.io,2017-01-03:2758</id>
+    <updated>2017-01-04T14:05:00Z</updated>
+    <content type="html">&lt;p&gt;Following the &lt;a href="https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin"&gt;Kotlin support on start.spring.io&lt;/a&gt; we introduced a few months ago, we have continued to work to ensure that Spring and &lt;a href="https://kotlin.link/"&gt;Kotlin&lt;/a&gt; play well together. One of the key strengths of Kotlin is that it provides a very good &lt;a href="https://kotlinlang.org/docs/reference/java-interop.html"&gt;interoperability&lt;/a&gt; with libraries written in Java. But there are ways to go even further and allow writing fully idiomatic Kotlin code when developing your next Spring application. In addition to Spring Framework support for Java 8 that Kotlin applications can leverage like functional web or bean registration APIs, there are additional Kotlin dedicated features that should allow you to reach a new level of productivity.&lt;/p&gt;
+&lt;p&gt;That¡¯s why we are introducing a dedicated Kotlin support in &lt;a href="https://spring.io/blog/2016/12/30/spring-framework-5-0-m4-released"&gt;Spring Framework 5.0 M4&lt;/a&gt;, and I would like to summarize in this blog post the features that are designed to make your developer experience seamless when using these technologies together. You can use &lt;a href="https://jira.spring.io/issues/?filter=15463"&gt;this link&lt;/a&gt; to find Kotlin related issues in Spring Framework bug tracker.&lt;/p&gt;&lt;h2&gt;&lt;a href="#leveraging-kotlin-nullable-information" class="anchor" name="leveraging-kotlin-nullable-information"&gt;&lt;/a&gt;Leveraging Kotlin nullable information&lt;/h2&gt;
+&lt;p&gt;Originally based on a community contribution from &lt;a href="https://github.com/rocketraman"&gt;Raman Gupta&lt;/a&gt;, Spring now takes advantage of &lt;a href="https://kotlinlang.org/docs/reference/null-safety.html"&gt;Kotlin null-safety support&lt;/a&gt; to determine if an HTTP parameter is required without having to define explicitly the &lt;code&gt;required&lt;/code&gt; attribute. That means &lt;code&gt;@RequestParam name: String?&lt;/code&gt; with be treated as not required and &lt;code&gt;@RequestParam name: String&lt;/code&gt; as required. This is also supported on Spring Messaging &lt;code&gt;@Header&lt;/code&gt; annotation.&lt;/p&gt;
+&lt;p&gt;In a similar fashion, Spring bean injection with &lt;code&gt;@Autowired&lt;/code&gt; or &lt;code&gt;@Inject&lt;/code&gt; uses this information to know if a bean is required or not. &lt;code&gt;@Autowired lateinit var foo: Foo&lt;/code&gt; implies that a bean of type &lt;code&gt;Foo&lt;/code&gt; must be registered in the application context while &lt;code&gt;@Autowired lateinit var foo: Foo?&lt;/code&gt; won¡¯t raise an error if such bean does not exist.&lt;/p&gt;&lt;h2&gt;&lt;a href="#extensions-for-resttemplate-and-functional-web-api" class="anchor" name="extensions-for-resttemplate-and-functional-web-api"&gt;&lt;/a&gt;Extensions for RestTemplate and Functional Web API&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://kotlinlang.org/docs/reference/extensions.html"&gt;Kotlin extensions&lt;/a&gt; allow to extend existing APIs in a non-intrusive way, providing a better alternative to utility classes or Kotlin specific class hierarchies to add Kotlin dedicated features to Spring. Some libraries like &lt;a href="https://github.com/MarioAriasC/KotlinPrimavera/wiki"&gt;KotlinPrimavera&lt;/a&gt; from &lt;a href="https://github.com/MarioAriasC"&gt;Mario Arias&lt;/a&gt; have already showed various kind of Kotlin helpers we can bring to Spring API in order to allow writing more idiomatic code. With Spring Framework 5, we integrate the most useful and popular extensions in Spring Framework dependencies, and we are adding new ones!&lt;/p&gt;
+&lt;p&gt;For example, &lt;a href="https://kotlinlang.org/docs/reference/inline-functions.html#reified-type-parameters"&gt;Kotlin reified type parameters&lt;/a&gt; provide a workaround for JVM &lt;a href="https://docs.oracle.com/javase/tutorial/java/generics/erasure.html"&gt;generics type erasure&lt;/a&gt;, so we have introduced some extensions to take advantage of this feature to provide a better API when possible.&lt;/p&gt;
+&lt;p&gt;That allows to provide convenient API for &lt;code&gt;RestTemplate&lt;/code&gt; (thanks to &lt;a href="https://github.com/jkschneider"&gt;Jon Schneider&lt;/a&gt; from Netflix for contributing this). For example, to retrieve a list of &lt;code&gt;Foo&lt;/code&gt; objects in Java you have to write:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;List&amp;lt;Foo&amp;gt; result = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference&amp;lt;List&amp;lt;Foo&amp;gt;&amp;gt;() { }).getBody();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Or that way if you use an intermediate array:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;List&amp;lt;Foo&amp;gt; result = Arrays.asList(restTemplate.getForObject(url, Foo[].class));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While in Kotlin with Spring Framework 5 extensions you will be able to write:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint koltin"&gt;val result : List&amp;lt;Foo&amp;gt; = restTemplate.getForObject(url)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Be aware that Kotlin extensions are statically resolved, you have to import them. In the example above, you need to add &lt;code&gt;import org.springframework.web.client.RestOperationsExtension.getForObject&lt;/code&gt; to be able to use it. Kotlin extensions are generally automatically suggested by IDEs like IntelliJ IDEA (like static imports), but it does not work yet for extensions nested in a container &lt;code&gt;object&lt;/code&gt; (you can vote for &lt;a href="https://youtrack.jetbrains.com/issue/KT-15440"&gt;KT-15440&lt;/a&gt;) so until it is fixed you will have to add Spring Kotlin extensions imports manually.&lt;/p&gt;
+&lt;p&gt;Available &lt;code&gt;RestTemplate&lt;/code&gt; or functional web API extensions currently available in Spring Framework 5.0 M4 are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-web/src/main/kotlin/org/springframework/web/client/RestOperationsExtension.kt"&gt;RestOperationsExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-web-reactive/src/main/kotlin/org/springframework/web/reactive/function/server/ServerRequestExtension.kt"&gt;ServerRequestExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-web-reactive/src/main/kotlin/org/springframework/web/reactive/function/BodyInsertersExtension.kt"&gt;BodyInsertersExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-web-reactive/src/main/kotlin/org/springframework/web/reactive/function/BodyExtractorsExtension.kt"&gt;BodyExtractorsExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-web-reactive/src/main/kotlin/org/springframework/web/reactive/function/client/ClientResponseExtension.kt"&gt;ClientResponseExtension&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These extensions also provide member functions supporting natively Kotlin &lt;code&gt;KClass&lt;/code&gt;, allowing you to specify &lt;code&gt;Foo::class&lt;/code&gt; parameter instead of &lt;code&gt;Foo::class.java&lt;/code&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a href="#reactor-kotlin-extensions" class="anchor" name="reactor-kotlin-extensions"&gt;&lt;/a&gt;Reactor Kotlin extensions&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://projectreactor.io/"&gt;Reactor&lt;/a&gt; is the reactive foundation Spring Framework 5.0 is built upon, and there are good chances you are going to use its &lt;a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html"&gt;Mono&lt;/a&gt;, &lt;a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html"&gt;Flux&lt;/a&gt; and &lt;a href="https://projectreactor.io/docs/test/release/api/reactor/test/StepVerifier.html"&gt;StepVerifier&lt;/a&gt; APIs when developing a reactive web application.&lt;/p&gt;
+&lt;p&gt;So today we are also introducing Kotlin support in Reactor, via the new &lt;a href="https://github.com/reactor/reactor-kotlin"&gt;reactor-kotlin&lt;/a&gt; project! It provides extensions to be able to create &lt;code&gt;Mono&lt;/code&gt; instances from any class instance by writing &lt;code&gt;foo.toMono()&lt;/code&gt; which many will prefer to &lt;code&gt;Mono.just(foo)&lt;/code&gt;. It also supports for example creating a &lt;code&gt;Flux&lt;/code&gt; from a Java 8 &lt;code&gt;Stream&lt;/code&gt; instance with &lt;code&gt;stream.toFlux()&lt;/code&gt;. &lt;code&gt;Iterable&lt;/code&gt;, &lt;code&gt;CompletableFuture&lt;/code&gt; and &lt;code&gt;Throwable&lt;/code&gt; extensions as well as &lt;code&gt;KClass&lt;/code&gt; based variants of Reactor API are also provided.&lt;/p&gt;
+&lt;p&gt;This is still the early days of this project, so feel free to &lt;a href="https://github.com/reactor/reactor-kotlin/pulls"&gt;contribute&lt;/a&gt; your own extensions if you find missing bits.&lt;/p&gt;&lt;h2&gt;&lt;a href="#functional-bean-registration-with-kotlin" class="anchor" name="functional-bean-registration-with-kotlin"&gt;&lt;/a&gt;Functional bean registration with Kotlin&lt;/h2&gt;
+&lt;p&gt;Spring Framework 5.0 introduces a new way to register beans using lambda as an alternative to XML or JavaConfig with &lt;code&gt;@Configuration&lt;/code&gt; and &lt;code&gt;@Bean&lt;/code&gt;. In a nutshell, it makes it possible to register beans with a &lt;code&gt;Supplier&lt;/code&gt; lambda that acts as a &lt;code&gt;FactoryBean&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In Java you will for example write:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();&#xD;
+context.registerBean(Foo.class);&#xD;
+context.registerBean(Bar.class, () -&amp;gt; new &#xD;
+	Bar(context.getBean(Foo.class))&#xD;
+);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While in Kotlin, reified type parameters allow us to simply write:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;val context = AnnotationConfigApplicationContext()&#xD;
+context.registerBean(Foo::class)&#xD;
+context.registerBean(Supplier {&#xD;
+	Bar(context.getBean(Foo::class))&#xD;
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can see a concrete example of Spring application using both functional &lt;a href="https://github.com/mix-it/mixit/blob/master/src/main/kotlin/mixit/controller/UserController.kt"&gt;web&lt;/a&gt; and &lt;a href="https://github.com/mix-it/mixit/blob/master/src/main/kotlin/mixit/Application.kt"&gt;bean registration&lt;/a&gt; API at &lt;a href="https://github.com/mix-it/mixit/"&gt;https://github.com/mix-it/mixit/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ApplicationContext&lt;/code&gt; related Kotlin extensions available are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-beans/src/main/kotlin/org/springframework/beans/factory/BeanFactoryExtension.kt"&gt;BeanFactoryExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-beans/src/main/kotlin/org/springframework/beans/factory/ListableBeanFactoryExtension.kt"&gt;ListableBeanFactoryExtension&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/spring-framework/blob/master/spring-context/src/main/kotlin/org/springframework/context/support/GenericApplicationContextExtension.kt"&gt;GenericApplicationContextExtension&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h2&gt;&lt;a href="#no-need-to-declare-your-bean-class-as-open-anymore" class="anchor" name="no-need-to-declare-your-bean-class-as-open-anymore"&gt;&lt;/a&gt;No need to declare your bean class as open anymore&lt;/h2&gt;
+&lt;p&gt;Until now, one of the few pain points you faced when building a Spring Boot application with Kotlin was the need to add an &lt;code&gt;open&lt;/code&gt; keyword on each class and their member functions of Spring beans proxified with CGLIB like &lt;code&gt;@Configuration&lt;/code&gt; classes. The root cause of this requirement comes from the fact that in Kotlin, &lt;a href="https://discuss.kotlinlang.org/t/classes-final-by-default/166"&gt;classes are final by default&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Fortunately, Kotlin 1.0.6 now provides a &lt;code&gt;kotlin-spring&lt;/code&gt; plugin that open classes and their member functions by default for classes annotated or meta-annotated with one of the following annotation:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;@Component&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@Async&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@Transactional&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;@Cacheable&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Meta-annotations support means that classes annotated with&lt;code&gt;@Configuration&lt;/code&gt;, &lt;code&gt;@Controller&lt;/code&gt;, &lt;code&gt;@RestController&lt;/code&gt;, &lt;code&gt;@Service&lt;/code&gt; or &lt;code&gt;@Repository&lt;/code&gt; are automatically opened since these annotations are meta-annotated with &lt;code&gt;@Component&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;We have updated &lt;a href="http://start.spring.io/#!language=kotlin"&gt;start.spring.io&lt;/a&gt; to enabled it by default. You can have a look to &lt;a href="https://blog.jetbrains.com/kotlin/2016/12/kotlin-1-0-6-is-here/"&gt;this Kotlin 1.0.6 blog post&lt;/a&gt; for more details, including the new &lt;code&gt;kotlin-jpa&lt;/code&gt; and &lt;code&gt;kotlin-noarg&lt;/code&gt; plugins really useful with Spring Data entities.&lt;/p&gt;&lt;h2&gt;&lt;a href="#kotlin-based-gradle-build-configuration" class="anchor" name="kotlin-based-gradle-build-configuration"&gt;&lt;/a&gt;Kotlin based Gradle build configuration&lt;/h2&gt;
+&lt;p&gt;Back in May, Gradle &lt;a href="https://blog.gradle.org/kotlin-meets-gradle"&gt;announced&lt;/a&gt; that they are going to support writing build and config files in Kotlin in addition to Groovy. This makes it possible to have full auto-completion and validation in your IDE, because such files are regular statically-typed Kotlin Script files. This is likely to become the natural choice for Kotlin based project, but this is also valuable for Java projects too.&lt;/p&gt;
+&lt;p&gt;Since May, the &lt;a href="https://github.com/gradle/gradle-script-kotlin"&gt;gradle-script-kotlin&lt;/a&gt; project has continued to evolve, and is now usable with 2 warnings to keep in mind:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;You need Kotlin 1.1-EAP IDEA plugin to get autocompletion (but wait Kotlin &lt;code&gt;1.1-M05&lt;/code&gt; if you are using &lt;code&gt;kotlin-spring&lt;/code&gt; plugin since &lt;code&gt;1.1-M04&lt;/code&gt; does not work reliably with this plugin yet)&lt;/li&gt;
+  &lt;li&gt;The documentation is not complete, but the Gradle team is really helpful on the #gradle channel of the Kotlin Slack.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Both &lt;a href="https://github.com/sdeleuze/spring-boot-kotlin-demo"&gt;spring-boot-kotlin-demo&lt;/a&gt; and &lt;a href="https://github.com/mix-it/mixit/"&gt;mixit&lt;/a&gt; projects use such Kotlin based Gradle builds, so feel free to have a look. We are &lt;a href="https://github.com/spring-io/initializr/issues/334"&gt;discussing&lt;/a&gt; adding such support on start.spring.io.&lt;/p&gt;&lt;h2&gt;&lt;a href="#kotlin-script-based-templates" class="anchor" name="kotlin-script-based-templates"&gt;&lt;/a&gt;Kotlin Script based templates&lt;/h2&gt;
+&lt;p&gt;As of version 4.3, Spring Framework provides a &lt;a href="http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/view/script/ScriptTemplateView.html"&gt;ScriptTemplateView&lt;/a&gt; to render templates using script engines that supports &lt;a href="https://www.jcp.org/en/jsr/detail?id=223"&gt;JSR-223&lt;/a&gt;. Kotlin 1.1-M04 provides such support and allows to render Kotlin based templates, see &lt;a href="https://github.com/spring-projects/spring-framework/commit/badde3a479a53e1dd0777dd1bd5b55cb1021cf9e"&gt;this commit&lt;/a&gt; for details.&lt;/p&gt;
+&lt;p&gt;This enables some interesting use cases like writing type-safe templates using &lt;a href="https://github.com/Kotlin/kotlinx.html"&gt;kotlinx.html&lt;/a&gt; DSL or simply Kotlin multiline &lt;code&gt;String&lt;/code&gt; with interpolation, as demonstrated in this &lt;a href="https://github.com/sdeleuze/kotlin-script-templating"&gt;kotlin-script-templating&lt;/a&gt; project. This could allow you to write this kind of templates with full autocompletion and refactoring support in your IDE:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint kotlin"&gt;import io.spring.demo.User&#xD;
+import io.spring.demo.joinToLine&#xD;
+&#xD;
+&amp;quot;&amp;quot;&amp;quot;&#xD;
+${include(&amp;quot;header&amp;quot;, bindings)}&#xD;
+&amp;lt;h1&amp;gt;Title : $title&amp;lt;/h1&amp;gt;&#xD;
+&amp;lt;ul&amp;gt;&#xD;
+    ${(users as List&amp;lt;User&amp;gt;).joinToLine{ &amp;quot;&amp;lt;li&amp;gt;User ${it.firstname} ${it.lastname}&amp;lt;/li&amp;gt;&amp;quot; }}&#xD;
+&amp;lt;/ul&amp;gt;&#xD;
+${include(&amp;quot;footer&amp;quot;)}&#xD;
+&amp;quot;&amp;quot;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This feature is still work in progress, but I am collaborating with the Kotlin team to tentatively make it production ready with nested template and i18n support on both MVC and Reactive sides for Spring Framework 5.0 GA.&lt;/p&gt;&lt;h2&gt;&lt;a href="#conclusion" class="anchor" name="conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The more I write Spring Boot applications with Kotlin, the more I feel these 2 technologies share the same mindset and allow you to write applications more efficiently with expressive, short and readable code, and Spring Framework 5 Kotlin support is a significant step towards combining these technologies in a natural, simple and powerful way.&lt;/p&gt;
+&lt;p&gt;Kotlin can be used to write &lt;a href="https://github.com/sdeleuze/spring-boot-kotlin-demo"&gt;annotation-based Spring Boot applications&lt;/a&gt;, but will also be a good fit with the new kind of &lt;a href="https://github.com/mix-it/mixit/"&gt;functional and reactive applications&lt;/a&gt; that Spring Framework 5.0 will enable.&lt;/p&gt;
+&lt;p&gt;Kotlin team did a great job by fixing almost all the pain points we reported, so big thanks to them. The upcoming Kotlin 1.1 release is expected to also fix &lt;a href="https://youtrack.jetbrains.com/issue/KT-11235"&gt;KT-11235&lt;/a&gt; in order to allow specifying array annotation attribute single value without &lt;code&gt;arrayOf()&lt;/code&gt;. The main remaining issue you will face is probably &lt;a href="https://youtrack.jetbrains.com/issue/KT-14984"&gt;KT-14984&lt;/a&gt; that will require specifying explicitly lambda type (like &lt;code&gt;Supplier { }&lt;/code&gt; or &lt;code&gt;HandlerFunction  { }&lt;/code&gt;) where just specifying &lt;code&gt;{ }&lt;/code&gt; should be enough.&lt;/p&gt;
+&lt;p&gt;Feel free to test Spring Framework 5.0 Kotlin support by going to &lt;a href="https://start.spring.io/#!language=kotlin"&gt;start.spring.io&lt;/a&gt; and generating a Spring Boot &lt;code&gt;2.0.0 (SNAPSHOT)&lt;/code&gt; project and send us your feedback here or in the &lt;code&gt;#spring&lt;/code&gt; channel of &lt;a href="http://slack.kotlinlang.org/"&gt;Kotlin Slack&lt;/a&gt;. You can also &lt;a href="https://github.com/spring-projects/spring-framework/pulls"&gt;contribute&lt;/a&gt; the Kotlin extensions you need ;-)&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring - January 3rd, 2017</title>
     <link rel="alternate" href="https://spring.io/blog/2017/01/03/this-week-in-spring-january-3rd-2017" />
@@ -417,86 +611,5 @@ They can be provided later at runtime via &lt;code&gt;addQueues()&lt;/code&gt;&l
 &lt;p&gt;Project Jigsaw will bring modularity to the Java platform; something that will enable better security, performance and flexibility for deployment of applications. This talk will look at the fundamentals of how modularity in Java will work. Developers will need to understand that these changes go significantly further than just separating the standard class libraries into a number of discrete units.&lt;/p&gt;
 &lt;p&gt;This talk will explain the impact project Jigsaw will have on developers in terms of building their applications, as well as helping them to understand how things like encapsulation of private APIs, which have up until now been visible, will change in JDK 9.&lt;/p&gt;
 &lt;iframe width="560" height="315" src="https://www.youtube.com/embed/Ks7J_qQVR7Y" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content>
-  </entry>
-  <entry>
-    <title>SpringOne Platform 2016 Replay: Machine Learning Exposed!</title>
-    <link rel="alternate" href="https://spring.io/blog/2016/12/20/springone-platform-2016-replay-machine-learning-exposed" />
-    <category term="news" label="News and Events" />
-    <author>
-      <name>Pieter Humphrey</name>
-    </author>
-    <id>tag:spring.io,2016-12-21:2743</id>
-    <updated>2016-12-20T10:26:00Z</updated>
-    <content type="html">&lt;p&gt;Recorded at SpringOne Platform 2016.&lt;br/&gt;Speaker: James Weaver&lt;br/&gt;Slides: &lt;a href="http://www.slideshare.net/SpringCentral/machine-learning-exposed-64845395"&gt;http://www.slideshare.net/SpringCentral/machine-learning-exposed-64845395&lt;/a&gt;&lt;br/&gt;The term &amp;ldquo;machine learning&amp;rdquo; is increasingly bandied about in corporate settings and cocktail parties, but what is it, really? In this session we&amp;rsquo;ll answer that question, providing an approachable overview of machine learning concepts, technologies, and use cases. We&amp;rsquo;ll then take a deeper dive into machine learning topics such as supervised learning, unsupervised learning, and deep learning. We&amp;rsquo;ll also survey various machine learning APIs and platforms. Technologies including Spring and Cloud Foundry will be leveraged in the demos. You&amp;rsquo;ll be the hit of your next party when you&amp;rsquo;re able to express the near-magical inner-workings of artificial neural networks!&lt;/p&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/4sf8IBGWnNo" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content>
-  </entry>
-  <entry>
-    <title>SpringOne Platform 2016 Replay:  Developing a Geospatial Webservice with Kotlin and Spring Boot</title>
-    <link rel="alternate" href="https://spring.io/blog/2016/12/20/springone-platform-2016-replay-developing-a-geospatial-webservice-with-kotlin-and-spring-boot" />
-    <category term="news" label="News and Events" />
-    <author>
-      <name>Pieter Humphrey</name>
-    </author>
-    <id>tag:spring.io,2016-12-21:2742</id>
-    <updated>2016-12-20T08:44:00Z</updated>
-    <content type="html">&lt;p&gt;Recorded at SpringOne Platform 2016.&lt;br/&gt;Speaker: S?bastien Deleuze&lt;br/&gt;Slides: &lt;a href="http://www.slideshare.net/SpringCentral/developing-a-geospatial-webservice-with-kotlin-and-spring-boot"&gt;http://www.slideshare.net/SpringCentral/developing-a-geospatial-webservice-with-kotlin-and-spring-boot&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;As described in this announcement &lt;a href="https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin"&gt;I made on the Spring blog&lt;/a&gt;, it is now easy to create a Spring Boot application using Kotlin.&lt;/p&gt;
-&lt;p&gt;Thanks to a &lt;a href="https://spring.io/blog/2016/03/20/a-geospatial-messenger-with-kotlin-spring-boot-and-postgresql"&gt;sample Geospatial messenger application&lt;/a&gt;, I will show how Spring Boot and Kotlin share the same pragmatic, innovative and opinionated mindset to allow you to build simple but powerful projects.&lt;/p&gt;
-&lt;p&gt;This talk will provide an opportunity to show how to use a relational database without JPA in order to use advanced PostgreSQL functionalities (like its powerful spatial database extender PostGIS or native JSON support) while keeping a lightweight stack.&lt;/p&gt;
-&lt;p&gt;I will also demonstrate the upcoming Kotlin to Javascript transpiler that allows you to share code between client and server (domain model, validation) and to code your frontend with autocomplete, static typing and so on.&lt;/p&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/8QPqIgRV4FM" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Cloud Spinnaker 1.0.0.M3</title>
-    <link rel="alternate" href="https://spring.io/blog/2016/12/19/spring-cloud-spinnaker-1-0-0-m3" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Greg Turnquist</name>
-    </author>
-    <id>tag:spring.io,2016-12-19:2739</id>
-    <updated>2016-12-19T20:39:00Z</updated>
-    <content type="html">&lt;div class="paragraph"&gt;
-&lt;p&gt;Greetings Spring community,&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;I am happy to release the second milestone for &lt;a href="https://cloud.spring.io/spring-cloud-spinnaker/"&gt;Spring Cloud Spinnaker&lt;/a&gt;. Spring Cloud Spinnaker bundles up the &lt;a href="http://www.spinnaker.io/"&gt;continuous delivery Spinnaker platform&lt;/a&gt;, and provides a 1-click installer to let you install it to any &lt;a href="https://www.cloudfoundry.org/use/cloud-foundry-certified/"&gt;certified Cloud Foundry provider&lt;/a&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;UPDATE: This blog post originally cited M2, however one of our early adopters spotted a &lt;a href="https://github.com/spring-cloud/spring-cloud-spinnaker/issues/118"&gt;critical bug&lt;/a&gt;, so M3 has been built and released with the fix in hand.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Key features included in this release:&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="ulist"&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Much more simplified way to login, select your org and space from dropdowns, etc., shooting for as simple an experience as possible.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Ability to manage two CF spaces&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Support for Jenkins and Travis CI monitoring.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Configure email and slack notifications&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Move to hosted uber JARs, meaning installing the installer is no longer a bugbear&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Other enhancements regarding to Spinnaker itself include ability to clone server groups, an upgrade to our Reactor-based cf-java-client 2 library, and also enhance UX showing more CF information than ever.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;If your team/meetup/JUG is interested in hearing more about Spinnaker, &lt;a href="https://spring.io/team/gturnquist"&gt;check in with me&lt;/a&gt; and we can arrange a Google Hangout.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;Cheers,&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="paragraph"&gt;
-&lt;p&gt;&lt;a href="https://github.com/spring-cloud/spring-cloud-spinnaker"&gt;Source&lt;/a&gt; | &lt;a href="https://circleci.com/gh/spring-cloud/spring-cloud-spinnaker"&gt;PR CI&lt;/a&gt; | &lt;a href="https://jenkins.spring.io/view/All/job/spring-cloud-spinnaker/"&gt;Master CI&lt;/a&gt; | &lt;a href="http://www.spinnaker.io/docs"&gt;Docs&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spinnaker"&gt;Questions&lt;/a&gt; | &lt;a href="http://join.spinnaker.io/"&gt;Slack&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;</content>
   </entry>
 </feed>

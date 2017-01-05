@@ -1,0 +1,8 @@
+package exam_02_04_BookShelf;
+
+public class BookShelf {
+
+	private String title; //책장명
+	private int pricae; //책장가격
+	
+}
