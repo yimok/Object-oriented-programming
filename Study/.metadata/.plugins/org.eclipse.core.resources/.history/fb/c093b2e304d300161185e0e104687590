@@ -16,7 +16,7 @@ public class BookShelf {
 	//기본 생성자는 쓰든 쓰지 않든 무조건 명시해주자.
 	public BookShelf()
 	{
-	
+		
 	}
 	
 	//생성자 injtection 방식으로 2개의 필드 설정

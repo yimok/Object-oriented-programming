@@ -2,24 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	
-	
-	<context:annotation-config />
 	
 	
 	<!-- Spring 컨테이너에 의해 3개의 책 DTO가 생성. -->
 	<!-- scope는 디폴트로 singleton, 싱글톤이란 객체가 딱 하나만 존재하는것 -->
 	<bean id = "book1"
 	 class = "exam_02_04_BookShelf.dto.BookDTO"
-	 scope="singleton"
-	 init-method="myInit"
-	 destroy-method="myDestroy">
-	 <!--  init-method는 초기화메서드를 추가로 지정 -->
+	 scope="singleton">
 	
 		<property name ="btitle"> 
 			<value> 젊은 베르테르의 슬픔</value>

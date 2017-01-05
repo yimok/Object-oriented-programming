@@ -45,20 +45,17 @@ public class BookDTO implements InitializingBean , DisposableBean{
 		
 		@Override
 		public void destroy() throws Exception {
-			System.out.println("destroy 메서드 호출");
+			// TODO Auto-generated method stub
 			
 		}
 
 		@PreDestroy
 		public void destroyBean()
 		{
-			System.out.println("destroyBean 메서드 호출");
+			System.out.println("myInit 메서드 호출");
 		}
 		
-		public void myDestroy()
-		{
-			System.out.println("myDestroy 메서드 호출");
-		}
+		
 		
 		
 		

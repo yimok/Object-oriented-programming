@@ -34,8 +34,16 @@ public class Main {
 		//key 값이 2인 BookDTO를 찿아서 책의 제목을 출력
 		
 		System.out.println(shelf.getMap().get(2).getBtitle());
-	
-		ctx.close();
+		
+		
+		//BookDTO 클래스 타입인 book1 빈 객체를 끄집어 냄
+		//xml에 scope가 singleton으로 지정되있으면 두 객체 dto1과 dto2는 같다.
+		//xml에 scope가 prototype으로 지정되어있으면 getBean() 할때마다 새로운 객체를 생성한다. 
+		//따라서 dto1과 dto2는 다른 객체이다. -> scope에 따라 객체가 같냐 다르냐가 결정됨
+ 		BookDTO dto1 = ctx.getBean("book1",BookDTO.class);
+
+		BookDTO dto2 = ctx.getBean("book1",BookDTO.class);
+		
 	}
 
 }

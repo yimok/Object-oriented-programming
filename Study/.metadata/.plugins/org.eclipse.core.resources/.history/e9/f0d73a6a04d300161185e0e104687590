@@ -35,7 +35,7 @@ public class Main {
 		
 		System.out.println(shelf.getMap().get(2).getBtitle());
 	
-		ctx.close();
+		
 	}
 
 }

@@ -9,17 +9,12 @@
 
 	
 	
-	<context:annotation-config />
-	
 	
 	<!-- Spring 컨테이너에 의해 3개의 책 DTO가 생성. -->
 	<!-- scope는 디폴트로 singleton, 싱글톤이란 객체가 딱 하나만 존재하는것 -->
 	<bean id = "book1"
 	 class = "exam_02_04_BookShelf.dto.BookDTO"
-	 scope="singleton"
-	 init-method="myInit"
-	 destroy-method="myDestroy">
-	 <!--  init-method는 초기화메서드를 추가로 지정 -->
+	 scope="singleton">
 	
 		<property name ="btitle"> 
 			<value> 젊은 베르테르의 슬픔</value>

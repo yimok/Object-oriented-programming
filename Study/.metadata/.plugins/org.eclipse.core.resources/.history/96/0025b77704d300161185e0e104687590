@@ -34,8 +34,7 @@ public class Main {
 		//key 값이 2인 BookDTO를 찿아서 책의 제목을 출력
 		
 		System.out.println(shelf.getMap().get(2).getBtitle());
-	
-		ctx.close();
+		
 	}
 
 }

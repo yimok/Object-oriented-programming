@@ -1,0 +1,39 @@
+package exam_02_04_BookShelf.dto;
+
+public class BookDTO {
+
+		//필드는 특별한 이유가 있지 않는한 information hiding때문에
+		//private으로 설정한다.
+		private String btitle;
+		private String bauthor;
+		
+		//기본 constructor는 사용하던 사용하지 않던간에 반드시 명시를 해 주세요!!
+		
+		public BookDTO()
+		{
+			//instance가 생성되면 호출
+			//bean 객체를 초기화 할때 여기에서 작업해 주면 된다.
+			System.out.println("BookDTO 생성자 호출");
+		}
+
+		
+		//private 필드에 대한 getter/setter
+		public String getBtitle() {
+			return btitle;
+		}
+
+		public void setBtitle(String btitle) {
+			this.btitle = btitle;
+		}
+
+		public String getBauthor() {
+			return bauthor;
+		}
+
+		public void setBauthor(String bauthor) {
+			this.bauthor = bauthor;
+		}
+		
+	
+		
+}
