@@ -8,9 +8,24 @@
 <fullyQualifiedTypeName name="exam_01_01_composition.DAO.BookDAO"/>
 <fullyQualifiedTypeName name="exam_01_01_composition.DAO.DAO"/>
 <fullyQualifiedTypeName name="exam_01_01_composition.DAO.BookDAOOracle"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
 <fullyQualifiedTypeName name="org.springframework.context.support.GenericApplicationContext"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.AnnotationConfigApplicationContext"/>
+<fullyQualifiedTypeName name="org.springframework.context.ApplicationContext"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="exam_02_03_BookSearch_Java_DI.dao.BookDAO"/>
+<fullyQualifiedTypeName name="exam_02_03_BookSearch_Java_DI.service.BookService"/>
+<fullyQualifiedTypeName name="exam_02_03_BookSearch_Java_DI.dto.BookDTO"/>
+<fullyQualifiedTypeName name="exam_02_03_BookSearch_Java_DI.config.ApplicationContext"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
+<fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
+<fullyQualifiedTypeName name="exam_02_04_BookShelf.dto.BookDTO"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.InitializingBean"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.DisposableBean"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="org.aopalliance.intercept.Joinpoint"/>
+<fullyQualifiedTypeName name="org.aspectj.lang.JoinPoint"/>
 </qualifiedTypeNameHistroy>

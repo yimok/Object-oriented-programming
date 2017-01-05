@@ -1,0 +1,10 @@
+package exam_03_01_AOP_Inheritance;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+
+	}
+
+}

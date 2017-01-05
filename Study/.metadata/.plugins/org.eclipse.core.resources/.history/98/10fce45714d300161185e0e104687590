@@ -1,0 +1,32 @@
+package exam_03_01_AOP_Inheritance;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import  exam_03_01_AOP_Inheritance.BookShelf;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		String config = "classpath:applicationCtx.xml";
+		
+		//Spring Container 생성
+		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+		
+		//xml문서 불러들이는 부분
+		ctx.load(config);
+		
+		//load 메서드로 xml을 불러올 경우 반드시 refresh() 메서드를 수행해야함.
+		//xml 적용
+		ctx.refresh();
+		
+		//Bookshelf 클래스 타입인 shelf 객체를 끄집어냄
+		BookShelf shelf = ctx.getBean("shelf",BookShelf.class);
+		
+		
+		shelf.printShelfInfo();
+	
+		ctx.close();
+	}
+
+}

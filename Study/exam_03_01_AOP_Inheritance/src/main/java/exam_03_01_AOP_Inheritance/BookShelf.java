@@ -1,0 +1,72 @@
+package exam_03_01_AOP_Inheritance;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import exam_03_01_AOP_Inheritance.dto.BookDTO;
+
+public class BookShelf extends TimeCheck {
+
+	private String title; //책장명
+	private int price; //책장가격
+	
+	private ArrayList<BookDTO> list;
+	private HashMap<Integer,BookDTO> map;
+	
+	//기본 생성자는 쓰든 쓰지 않든 무조건 명시해주자.
+	public BookShelf()
+	{
+	
+	}
+	
+	public void printShelfInfo()
+	{
+		//
+		
+		System.out.println("책장명:" + title);
+		for(BookDTO dto : list)
+		{
+		System.out.println(dto.getBtitle());	
+		}
+	}
+	
+	
+	//생성자 injtection 방식으로 2개의 필드 설정
+	public BookShelf(String title, ArrayList<BookDTO> list)
+	{
+		this.title = title;
+		this.list = list;
+	}
+	
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public ArrayList<BookDTO> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<BookDTO> list) {
+		this.list = list;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public HashMap<Integer, BookDTO> getMap() {
+		return map;
+	}
+
+	public void setMap(HashMap<Integer, BookDTO> map) {
+		this.map = map;
+	}
+}

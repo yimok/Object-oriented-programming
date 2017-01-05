@@ -1,0 +1,86 @@
+package exam_02_04_BookShelf.dto;
+
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+public class BookDTO implements InitializingBean , DisposableBean{
+
+		//필드는 특별한 이유가 있지 않는한 information hiding때문에
+		//private으로 설정한다.
+		private String btitle;
+		private String bauthor;
+		
+		
+		//생성자 -> PostConstruct -> afterPropertiesSet -> xml의 init-method 순서로 호출됨
+		//기본 constructor는 사용하던 사용하지 않던간에 반드시 명시를 해 주세요!!
+		public BookDTO()
+		{
+			//instance가 생성되면 호출
+			//bean 객체를 초기화 할때 여기에서 작업해 주면 된다.
+			System.out.println("BookDTO 생성자 호출");
+		}
+		
+		@Override
+		public void afterPropertiesSet() throws Exception {
+			//bean 객체를 초기화 할때 여기에서 작업해 주면 된다.
+			System.out.println("afterPropertiesSet 메서드 호출");
+			
+		}
+		
+		
+		//PostConstruct 는 <context:annotation-config/> 를 xml파일에 추가해줘야 사용가능 , namespace에 context 추가
+		@PostConstruct
+		public void initBean()
+		{
+			System.out.println("initBean 메서드 호출");
+		}
+		
+		public void myInit()
+		{
+			System.out.println("myInit 메서드 호출");
+		}
+		
+		
+		
+		@Override
+		public void destroy() throws Exception {
+			System.out.println("destroy 메서드 호출");
+			
+		}
+
+		@PreDestroy
+		public void destroyBean()
+		{
+			System.out.println("destroyBean 메서드 호출");
+		}
+		
+		public void myDestroy()
+		{
+			System.out.println("myDestroy 메서드 호출");
+		}
+		
+		
+		//private 필드에 대한 getter/setter
+		public String getBtitle() {
+			return btitle;
+		}
+
+		public void setBtitle(String btitle) {
+			this.btitle = btitle;
+		}
+
+		public String getBauthor() {
+			return bauthor;
+		}
+
+		public void setBauthor(String bauthor) {
+			this.bauthor = bauthor;
+		}
+
+	
+
+		
+	
+		
+}

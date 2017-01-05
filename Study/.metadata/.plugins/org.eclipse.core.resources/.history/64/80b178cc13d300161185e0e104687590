@@ -1,0 +1,9 @@
+package exam_03_01_AOP_Inheritance.dto;
+
+public class BookDTO {
+
+	private String btitle;
+	private String bauthor;
+	
+	
+}

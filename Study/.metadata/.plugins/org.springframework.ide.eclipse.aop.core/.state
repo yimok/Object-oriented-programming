@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
-<aop-project name="exam_01_01_composition"/>
-<aop-project name="BookSearch_MVC"/>
-<aop-project name="exam_02_01_BookSearch_XML_Setter"/>
+<aop-project name="exam_03_01_AOP_Inheritance"/>
 </aop-reference-model>
